@@ -1,0 +1,24 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">DRA Solutions</title>
+  <!-- Marca temporária (placeholder). Substitua este arquivo pela logo oficial em alta resolução,
+       mantendo o mesmo nome "dra-logo.svg" (ou ajuste o caminho em index.html, seção HEADER). -->
+  <circle cx="60" cy="60" r="58" fill="#FFFFFF" stroke="#E9EEF5" stroke-width="2"/>
+  <g stroke="#002B5C" stroke-width="2.25" stroke-linecap="round">
+    <line x1="60" y1="34" x2="38" y2="50"/>
+    <line x1="60" y1="34" x2="82" y2="50"/>
+    <line x1="38" y1="50" x2="38" y2="74"/>
+    <line x1="82" y1="50" x2="82" y2="74"/>
+    <line x1="38" y1="74" x2="60" y2="88"/>
+    <line x1="82" y1="74" x2="60" y2="88"/>
+    <line x1="60" y1="34" x2="60" y2="60"/>
+    <line x1="60" y1="60" x2="38" y2="74"/>
+    <line x1="60" y1="60" x2="82" y2="74"/>
+  </g>
+  <circle cx="60" cy="34" r="6" fill="#002B5C"/>
+  <circle cx="38" cy="50" r="5" fill="#002B5C"/>
+  <circle cx="82" cy="50" r="5" fill="#002B5C"/>
+  <circle cx="38" cy="74" r="5" fill="#002B5C"/>
+  <circle cx="82" cy="74" r="5" fill="#002B5C"/>
+  <circle cx="60" cy="60" r="6" fill="#FF6A00"/>
+  <circle cx="60" cy="88" r="6" fill="#002B5C"/>
+</svg>

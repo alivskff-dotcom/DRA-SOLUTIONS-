@@ -1,0 +1,534 @@
+/* ==========================================================================
+   DRA SOLUTIONS — Cartão Digital
+   Design tokens, layout mobile-first, animações e acessibilidade.
+   ========================================================================== */
+
+:root {
+  /* ---- Identidade visual DRA Solutions (não alterar sem aprovação) ---- */
+  --navy: #002B5C;
+  --navy-deep: #0A1A2F;
+  --orange: #FF6A00;
+  --white: #FFFFFF;
+  --gray-50: #F5F7FA;
+  --gray-100: #E9EEF5;
+
+  --text-primary: var(--white);
+  --text-secondary: rgba(255, 255, 255, 0.85);
+  --text-muted: rgba(255, 255, 255, 0.62);
+
+  --surface: var(--white);
+  --surface-muted: var(--gray-50);
+  --border-subtle: var(--gray-100);
+
+  /* ---- Tipografia ---- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* ---- Espaçamento / raio / sombra ---- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 1px 2px rgba(10, 26, 47, 0.04), 0 8px 24px -12px rgba(10, 26, 47, 0.10);
+  --shadow-hover: 0 4px 10px rgba(10, 26, 47, 0.06), 0 16px 32px -16px rgba(0, 43, 92, 0.16);
+
+  /* ---- Movimento ---- */
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur-base: 260ms;
+
+  /* Área segura (notch) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Reset enxuto                                                            */
+/* ---------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-muted);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Background — foto institucional                                        */
+/* ---------------------------------------------------------------------- */
+
+.bg-decoration {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--navy-deep);
+}
+
+.bg-decoration__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Layout base                                                             */
+/* ---------------------------------------------------------------------- */
+
+.page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  min-height: 100vh;
+  padding: calc(40px + var(--safe-top)) 20px calc(28px + var(--safe-bottom));
+}
+
+/* Película azul-marinho muito sutil sobre toda a foto — reforça a leitura
+   sem escurecer a imagem de forma perceptível. */
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 20, 45, 0.15) 0%,
+    rgba(0, 15, 35, 0.28) 45%,
+    rgba(0, 15, 35, 0.34) 100%
+  );
+}
+
+/* Zona de leitura central: escurece discretamente a área atrás do cartão
+   (cabeçalho + botões) e desaparece suavemente nas laterais/cantos. */
+.page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center 42%,
+    rgba(0, 15, 35, 0.38) 0%,
+    rgba(0, 15, 35, 0.24) 35%,
+    rgba(0, 15, 35, 0.08) 70%,
+    transparent 100%
+  );
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Cabeçalho / perfil                                                      */
+/* ---------------------------------------------------------------------- */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.profile__logo-wrap {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin-bottom: 18px;
+}
+
+.profile__logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: var(--shadow-soft);
+}
+
+.profile__name {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+}
+
+.profile__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.profile__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.16);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .profile__status-dot {
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.16); }
+  50% { box-shadow: 0 0 0 5px rgba(255, 106, 0, 0.08); }
+}
+
+.profile__description {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  max-width: 320px;
+  line-height: 1.6;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Botões de ação                                                          */
+/* ---------------------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 60px;
+  padding: 0 18px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 106, 0, 0.28) 0%,
+    rgba(255, 106, 0, 0.2) 12%,
+    rgba(255, 106, 0, 0.12) 25%,
+    rgba(255, 106, 0, 0.055) 40%,
+    rgba(255, 106, 0, 0.015) 55%,
+    rgba(0, 20, 45, 0.22) 72%,
+    rgba(0, 20, 45, 0.28) 100%
+  );
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-left-color: rgba(255, 106, 0, 0.5);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease,
+    color 300ms ease;
+}
+
+.action__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 35, 70, 0.65);
+  border: 1px solid rgba(255, 106, 0, 0.35);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.18),
+    0 0 12px rgba(255, 106, 0, 0.2);
+  color: var(--white);
+  filter: drop-shadow(0 0 5px rgba(255, 106, 0, 0.3));
+  transition: color 300ms ease,
+    background-color 300ms ease,
+    filter 300ms ease;
+}
+
+.action__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.action__label {
+  flex: 1;
+  text-align: left;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.97);
+  letter-spacing: -0.005em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+
+.action__arrow {
+  flex-shrink: 0;
+  display: flex;
+  color: var(--text-muted);
+  opacity: 0.7;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  transform: translateX(0);
+  transition: transform var(--dur-base) var(--ease-standard),
+    color var(--dur-base) var(--ease-standard),
+    opacity var(--dur-base) var(--ease-standard);
+}
+
+.action__arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Hover / focus (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .action:hover {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 106, 0, 0.38) 0%,
+      rgba(255, 106, 0, 0.26) 14%,
+      rgba(255, 106, 0, 0.16) 30%,
+      rgba(255, 106, 0, 0.07) 46%,
+      rgba(255, 106, 0, 0.02) 60%,
+      rgba(0, 20, 45, 0.24) 75%,
+      rgba(0, 20, 45, 0.3) 100%
+    );
+    border-color: rgba(255, 106, 0, 0.75);
+    box-shadow:
+      var(--shadow-soft),
+      0 0 18px rgba(255, 106, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .action:hover .action__icon {
+    color: var(--orange);
+    filter: drop-shadow(0 0 8px rgba(255, 106, 0, 0.5));
+  }
+
+  .action:hover .action__arrow {
+    color: var(--orange);
+    opacity: 1;
+    transform: translateX(3px);
+  }
+}
+
+.action:focus-visible {
+  border-color: var(--orange);
+}
+
+/* Toque (mobile) */
+.action:active {
+  transform: scale(0.985);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 106, 0, 0.32) 0%,
+    rgba(255, 106, 0, 0.22) 13%,
+    rgba(255, 106, 0, 0.14) 27%,
+    rgba(255, 106, 0, 0.06) 42%,
+    rgba(255, 106, 0, 0.018) 57%,
+    rgba(0, 20, 45, 0.23) 73%,
+    rgba(0, 20, 45, 0.29) 100%
+  );
+  box-shadow: var(--shadow-soft);
+}
+
+.action:active .action__icon {
+  filter: drop-shadow(0 0 8px rgba(255, 106, 0, 0.45));
+}
+
+/* Destaque sutil para o botão principal (WhatsApp), sem fugir da paleta */
+.action--primary {
+  border-color: rgba(255, 255, 255, 0.6);
+  border-left-color: rgba(255, 106, 0, 0.5);
+}
+
+.action--primary .action__icon {
+  background: var(--navy);
+  color: var(--white);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action--primary:hover .action__icon {
+    background: var(--orange);
+    color: var(--white);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Rodapé                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.footer {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.footer__brand {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.footer__tagline {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Animação de entrada                                                     */
+/* ---------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: fade-in-up var(--dur-base) var(--ease-standard) forwards;
+    animation-duration: 620ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .profile__status-dot {
+    animation: none;
+  }
+}
+
+@keyframes fade-in-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Breakpoints                                                             */
+/* ---------------------------------------------------------------------- */
+
+/* Telas muito estreitas (iPhone SE / dispositivos 360px) */
+@media (max-width: 359px) {
+  .page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .profile__name {
+    font-size: 19px;
+  }
+  .action {
+    padding: 0 14px;
+    gap: 12px;
+  }
+}
+
+/* Desktop / telas largas: mais respiro vertical, cartão centralizado */
+@media (min-width: 641px) {
+  .page {
+    align-items: center;
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .card {
+    max-width: 460px;
+    padding: 44px 40px 36px;
+  }
+
+  .profile__logo-wrap {
+    width: 100px;
+    height: 100px;
+  }
+
+  .footer {
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 641px) and (max-height: 700px) {
+  .page {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+}
